@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo01</title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.min.js"></script>
+    <script src="../lib/jquery.js"></script>
+    <style>
+        *{font-size: 14px;}
+        div{margin-top:30px;}
+    </style>
+</head>
+<body>
+    <div id="example"></div>
+
+    <div id="example_two"></div>
+
+    <div id="example_three"></div>
+
+    <div id="example_four"></div>
+
+    <div id="example_five"></div>
+
+    <div id="example_six"></div>
+
+    <div id="example_seven"></div>
+
+    <div id="example_eight"></div>
+
+    <div id="example_nine"></div>
+
+    <div id="example_ten"></div>
+
+    <div id="example_eleven"></div>
+
+    <script type="text/babel">
+
+        ReactDOM.render(
+                <h1>Hello,DEMO_01</h1>,
+                document.getElementById('example')
+        )
+
+        //example_two
+        var names = ['小明','小花','小红'];
+        ReactDOM.render(
+                <div>
+                {
+                    names.map(function (aa) {
+                          return <span>Hello,{aa}</span>
+                        })
+                }
+                </div>,
+                document.getElementById('example_two')
+        )
+
+        //example_three
+        var arrName = [
+                <h1 >直接在模板插入 JavaScript 变量</h1>,
+                <h1 >直接在模板插入 JavaScript 变量</h1>
+        ]
+        ReactDOM.render(
+                <div>{arrName}</div>,
+                document.getElementById('example_three')
+        )
+
+        //example_four  组件
+        var HelloMessage = React.createClass({
+            render : function(){
+                return <h1>Hello {this.props.title}</h1>
+            }
+        })
+        ReactDOM.render(
+                <HelloMessage title='HelloTitle' />,
+                document.getElementById('example_four')
+        )
+
+
+        //this.props.children
+        var NotesList = React.createClass({
+            render : function(){
+                return (
+                    <ul>
+                        {
+                            React.Children.map(this.props.children,function(child){
+                                    return <li>{child}</li>;
+                                })
+                        }
+                    </ul>
+
+                )
+
+            }
+        })
+        ReactDOM.render(
+            <NotesList>
+                <span>hei</span>
+                <span>notList</span>
+            </NotesList>,
+            document.getElementById('example_five')
+        )
+
+        //PropTypes
+        var MyTitle = React.createClass({
+               propTypes :{
+                    title : React.PropTypes.string.isRequired //必须是字符串
+                },
+                render : function(){
+                    return <h1>{this.props.title}</h1>;
+                }
+        })
+        var dataNum = 123
+        ReactDOM.render(
+                <MyTitle title={dataNum} />,
+                document.getElementById('example_six')
+        )
+
+
+        //获取真是的DOM节点
+        var MyComponent = React.createClass({
+                handleClick : function(){
+                    this.refs.myTextInput.focus(); //点击获取焦点
+                },
+                render : function(){
+                    return (
+                            <div>
+                                    <input type='text' ref= 'myTextInput'/>
+                                    <input type="button" value='clcik me' onClick={this.handleClick}/>
+                            </div>
+                    )
+                }
+        })
+        ReactDOM.render(
+                <MyComponent />,
+                document.getElementById('example_seven')
+        )
+
+        //this.state
+
+        var StateBtn = React.createClass({
+                getInitialState : function(){  //getInitialState 定义初始状态
+                    return {likeda: true};
+                },
+                handleClick : function(event){
+                    this.setState({likeda : !this.state.likeda});
+                },
+                render : function(){
+                    var text = this.state.likeda ? 'click yes' : 'click no';
+                    return (
+                            <p onClick={this.handleClick} > {text}  </p>
+                    )
+                }
+        })
+        ReactDOM.render(
+               <StateBtn />,
+                document.getElementById('example_eight')
+        )
+
+
+        // 表单
+
+        var FromDemo = React.createClass({
+            getInitialState : function(){
+                return {value : 'Hello From'};
+            },
+            handleChange : function(event){
+                this.setState({value: event.target.value});
+            },
+            render : function(){
+                var _vue= this.state.value;
+                return (
+                    <div>
+                        <input type="text" value={_vue} onChange={this.handleChange} />
+                         <p>{_vue}</p>
+                    </div>
+                );
+            }
+        })
+        ReactDOM.render(
+                <FromDemo />,
+                document.getElementById('example_nine')
+        )
+
+        //组件的生命周期
+        var TimeDemo = React.createClass({
+                getInitialState : function(){
+                    return {opacity : 1.0};
+                },
+                componentDidMount : function(){
+                    this.timer  = setInterval(function(){
+                        var _opacity = this.state.opacity;
+                        _opacity -= .05;
+                            if(_opacity <0.1){
+                                _opacity = 1.0;
+                            }
+                        this.setState({opacity:_opacity});
+                    }.bind(this),100)
+                },
+                render : function(){
+                    return (
+                            <div style={{opacity: this.state.opacity}}> {this.props.name} </div>
+                    )
+                }
+        })
+        ReactDOM.render(
+                <TimeDemo name='Time Demo'/>,
+                document.getElementById('example_ten')
+        )
+
+
+
+        //Ajax
+        var AjaxDemo = React.createClass({
+                getInitialState : function(){
+                    return {
+                        username : '',
+                        url : ''
+                    }
+                },
+                componentDidMount : function(){
+                    $.get(this.props.source,function(data){
+                        var _data = data.datas[0];
+                        if(this.isMounted()){
+                            this.setState({
+                                username : _data.name,
+                                url : _data.age
+                            })
+                        }
+
+                    }.bind(this))
+                },
+                render : function(){
+                    return (
+                            <div>
+                                <p> {this.state.username} </p>
+                                <p> {this.state.url} </p>
+
+                            </div>
+                    )
+                }
+        })
+        ReactDOM.render(
+                <AjaxDemo source='../lib/data.json'/>,
+                document.getElementById('example_eleven')
+        )
+
+    </script>
+</body>
+</html>

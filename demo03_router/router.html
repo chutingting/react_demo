@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.min.js"></script>
+    <script src="../lib/react-router.js"></script>
+</head>
+<body>
+    <!--<script type="text/babel" src="demo.jsx"></script>-->
+    <script type="text/babel" >
+        var About = React.createClass({
+            render : function() {
+                return <h1>我是About模块</h1>
+
+            }
+        })
+        var Inbox = React.createClass({
+            render : function() {
+                return <h1>我是 Inbox 模块</h1>
+
+            }
+        })
+        var Home = React.createClass({
+            render : function() {
+                return <h1>我是 Home 模块</h1>
+
+            }
+        })
+
+
+        var App = React.createClass({
+            getInitialState : function() {
+                return {
+                    route: window.location.hash.substr(1)
+                }
+            },
+
+            componentDidMount : function() {
+                window.addEventListener('hashchange', () => {
+                    this.setState({
+                        route: window.location.hash.substr(1)
+                    })
+                })
+            },
+
+            render : function() {
+                var Child;
+                switch (this.state.route) {
+                    case '/about': Child = About; break;
+                    case '/inbox': Child = Inbox; break;
+                    default:      Child = Home;
+                }
+                return (
+                        <div>
+                            <ul>
+                                 <li><a href="#/about">About</a></li>
+                                 <li><a href="#/inbox">Inbox</a></li>
+                            </ul>
+                            <Child />
+                        </div>
+            )
+            }
+        })
+
+        ReactDOM.render(<App />, document.body)
+    </script>
+</body>
+</html>
