@@ -1,0 +1,9 @@
+http://blog.csdn.net/qq_16559905/article/details/54177581
+
+
+npm run dev 直接运行
+
+
+npm run build         线上目录
+
+npm run dev           开发目录

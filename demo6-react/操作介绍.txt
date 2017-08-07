@@ -1,9 +1,0 @@
-dev-serve.js  为webpack启动服务目录
-
-webpack.config.js 为webpack主目录
-
-package.json  这个是存放 webpack安装node目录的版本信息
-
-app.js 是我的代码入口文件
-
-.babelrc 是webpack 转换es6的功能

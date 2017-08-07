@@ -1,0 +1,19 @@
+
+react 一个用于创建 可复用,可聚合 web组件的js库 ,是MVC里面的 'V' , 单向数据流
+
+1.getInitialState 方法用于定义初始状态  this.setState 方法就修改状态值，每次修改以后，自动调用 this.render 方法，再次渲染组件
+
+2.this.props 表示那些一旦定义，就不再改变的特性，而 this.state 是会随着用户互动而产生变化的特性
+
+3.用户跟组件的互动 不能用 this.props 读取
+
+4.componentDidMount  方法设置 Ajax 请求  / 方法设置一个定时器
+
+5.配置环境
+  npm install -g create-react-app
+
+  create-react-app 项目名     －－创建一个文件目录  自动创建的项目是基于 Webpack + ES6
+
+  npm start      －－浏览器打开查看
+
+  http://react-guide.github.io/react-router-cn/docs/Introduction.html     Router网址
