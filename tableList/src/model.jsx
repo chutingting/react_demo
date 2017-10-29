@@ -5,7 +5,11 @@ export default class Model extends React.Component{
         super(props);
         this.state = {
             display : 'none',
-            editData : ""
+            editData : "",
+            title : "",
+            alt : "",
+            id : "",
+            _tag : ""
         };
     }
     close(){
@@ -13,12 +17,24 @@ export default class Model extends React.Component{
             display : 'none'
         })
     }
-    getEditData(item){
-        this.setState({
-            display : 'block',
-            editData : item,
-            title:item.title
-        })
+    getEditData(item,tag){
+        if(tag == 'edit'){
+            this.setState({
+                display : 'block',
+                editData : item,
+                title:item.title,
+                alt : item.alt,
+                id : item.id,
+                _tag : tag
+            })
+        }else{
+            this.setState({
+                display : 'block',
+                _tag : tag
+            })
+        }
+        console.log(tag)
+
     }
     getTitle (event) {
         this.setState({
@@ -26,6 +42,26 @@ export default class Model extends React.Component{
         });
     }
     getAlt(event){
+        this.setState({
+            alt: event.target.value
+        });
+    }
+    save(){
+        this.setState({
+            data : {
+                title : this.state.title,
+                alt : this.state.alt,
+                id : this.state == 'edit' ? this.state.id : ""
+            }
+        });
+        window.setTimeout(function(){
+            if(this.state.title == "" || this.state.alt == ""){
+                alert('title || alt 不可以为空！');
+                return;
+            }
+            this.props.getEditData(this.state.data,this.state._tag);
+            this.close();
+        }.bind(this),0);
 
     }
     render(){
@@ -48,14 +84,14 @@ export default class Model extends React.Component{
                                 <div className="form-group">
                                     <label className="col-sm-2 control-label">alt:</label>
                                     <div className="col-sm-8">
-                                        <input type="text" className="input-sm form-control" value={this.state.editData.alt}  onChange={this.getAlt.bind(this)}/>
+                                        <input type="text" className="input-sm form-control" value={this.state.alt}  onChange={this.getAlt.bind(this)}/>
                                     </div>
                                 </div>
                             </div>
                          </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" onClick={e=>{this.close()}}>取消</button>
-                            <button type="button" className="btn btn-primary">确定</button>
+                            <button type="button" className="btn btn-primary" onClick={e=>{this.save()}}>确定</button>
                         </div>
                     </div>
                  </div>

@@ -8,7 +8,8 @@ export default class List extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            list : []
+            list : [],
+            titleNameSearch:""
         }
     }
     componentDidMount(){
@@ -25,6 +26,7 @@ export default class List extends React.Component{
 
         });
     }
+    /*列表*/
     getList(){
         var html = [];
         this.state.list.map((item,index)=>{
@@ -47,15 +49,64 @@ export default class List extends React.Component{
         })
     }
     edit(item,index){
-        this.refs['_model'].getEditData(item);
+        this.refs['_model'].getEditData(item,'edit');
     }
-    getEditData(){
+    addData(){
+        this.refs['_model'].getEditData("",'add');
+    }
+    /*修改*/
+    getEditData(data,tag){
+        if(tag == 'edit'){
+            var _list = this.state.list;
+            for(var i=0;i<_list.length;i++){
+                if(_list[i].id == data.id){
+                    _list[i] = data;
+                }
+            }
+            this.setState({
+                list  : _list
+            })
+        }else{
+            this.state.list.push(data);
+            this.setState({
+                list  : this.state.list
+            })
+        }
+    }
+    /*查询*/
+    titleName(event){
+         this.setState({
+            titleNameSearch : event.target.value
+         });
+    }
+    search(){
+        if(this.state.titleNameSearch == ""){
+            return;
+        }
+        var _list = this.state.list;
+        var searchList = [];
+        for(var i=0;i<_list.length;i++){
+            if(_list[i].title == this.state.titleNameSearch){
+                searchList.push(_list[i]);
+            }
+        }
 
+      //  this.state.list = searchList;
+        this.setState({
+            list  : searchList
+        })
     }
     render(){
         var listHtml = this.getList();
         return(
             <div>
+                <div className="form-group col-sm-2">
+                    <input type="text" className="form-control input-sm"  value={this.state.titleNameSearch} onChange={this.titleName.bind(this)}/>
+                </div>
+                <button className = 'btn btn-sm btn-info' onClick={e=>{this.search()}}>查询</button>
+
+                <button className = 'btn btn-sm btn-info' onClick={e=>{this.addData()}}>添加</button>
+
                 <table className = 'table table-bordered'>
                     <thead>
                         <tr>
@@ -68,7 +119,7 @@ export default class List extends React.Component{
                         {listHtml}
                     </tbody>
                 </table>
-                <Model ref='_model' getEditData={e=>{this.getEditData}}/>
+                <Model ref='_model' getEditData = {this.getEditData.bind(this)}/>
             </div>
         )
     }
