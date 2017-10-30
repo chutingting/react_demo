@@ -33,8 +33,6 @@ export default class Model extends React.Component{
                 _tag : tag
             })
         }
-        console.log(tag)
-
     }
     getTitle (event) {
         this.setState({
@@ -51,7 +49,7 @@ export default class Model extends React.Component{
             data : {
                 title : this.state.title,
                 alt : this.state.alt,
-                id : this.state == 'edit' ? this.state.id : ""
+                id : this.state._tag == 'edit' ? this.state.id : ""
             }
         });
         window.setTimeout(function(){
