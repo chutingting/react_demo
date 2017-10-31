@@ -5,10 +5,7 @@ export default class Model extends React.Component{
         super(props);
         this.state = {
             display : 'none',
-            editData : "",
-            title : "",
-            alt : "",
-            id : "",
+            editData : {id:Math.random(),title:"",alt:""},
             _tag : ""
         };
     }
@@ -22,44 +19,36 @@ export default class Model extends React.Component{
             this.setState({
                 display : 'block',
                 editData : item,
-                title:item.title,
-                alt : item.alt,
-                id : item.id,
                 _tag : tag
             })
         }else{
             this.setState({
                 display : 'block',
+                editData : {id:Math.random(),title:"",alt:""},
                 _tag : tag
             })
         }
     }
-    getTitle (event) {
-        this.setState({
-            title: event.target.value
-        });
+    getInput (d,tag,e) {
+        d[tag] = e.target.value;
+        this.setState({editData:this.state.editData});
+
     }
-    getAlt(event){
+    /*getAlt(event){
         this.setState({
-            alt: event.target.value
+            editData : {
+                alt: event.target.value
+            }
         });
-    }
+    }*/
     save(){
-        this.setState({
-            data : {
-                title : this.state.title,
-                alt : this.state.alt,
-                id : this.state._tag == 'edit' ? this.state.id : ""
-            }
-        });
-        window.setTimeout(function(){
-            if(this.state.title == "" || this.state.alt == ""){
-                alert('title || alt 不可以为空！');
-                return;
-            }
-            this.props.getEditData(this.state.data,this.state._tag);
-            this.close();
-        }.bind(this),0);
+
+        if(this.state.editData.title == "" || this.state.editData.alt == ""){
+            alert('title || alt 不可以为空！');
+            return;
+        }
+        this.props.getEditData(this.state.editData,this.state._tag);
+        this.close();
 
     }
     render(){
@@ -76,13 +65,13 @@ export default class Model extends React.Component{
                                 <div className="form-group">
                                     <label className="col-sm-2 control-label">Title:</label>
                                     <div className="col-sm-8">
-                                        <input type="text" className="input-sm form-control" value={this.state.title} onChange={this.getTitle.bind(this)}/>
+                                        <input type="text" className="input-sm form-control" value={this.state.editData.title} onChange={e=>{this.getInput(this.state.editData,'title',e)}}/>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label className="col-sm-2 control-label">alt:</label>
                                     <div className="col-sm-8">
-                                        <input type="text" className="input-sm form-control" value={this.state.alt}  onChange={this.getAlt.bind(this)}/>
+                                        <input type="text" className="input-sm form-control" value={this.state.editData.alt}  onChange={e=>{this.getInput(this.state.editData,'alt',e)}}/>
                                     </div>
                                 </div>
                             </div>

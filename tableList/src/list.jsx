@@ -4,6 +4,7 @@ import ReactDom from 'react-dom';
 import $ from 'jquery';
 import Model from './model.jsx';
 
+
 export default class List extends React.Component{
     constructor(props){
         super(props);
@@ -13,6 +14,7 @@ export default class List extends React.Component{
         }
     }
     componentDidMount(){
+
         $.ajax({
             url:"http://api.douban.com//v2/movie/coming_soon?start=1&count=3",
             type:"get",
@@ -52,7 +54,7 @@ export default class List extends React.Component{
         this.refs['_model'].getEditData(item,'edit');
     }
     addData(){
-        this.refs['_model'].getEditData("",'add');
+        this.refs['_model'].getEditData({},'add');
     }
     /*修改*/
     getEditData(data,tag){
@@ -104,9 +106,7 @@ export default class List extends React.Component{
                     <input type="text" className="form-control input-sm"  value={this.state.titleNameSearch} onChange={this.titleName.bind(this)}/>
                 </div>
                 <button className = 'btn btn-sm btn-info' onClick={e=>{this.search()}}>查询</button>
-
                 <button className = 'btn btn-sm btn-info' onClick={e=>{this.addData()}}>添加</button>
-
                 <table className = 'table table-bordered'>
                     <thead>
                         <tr>

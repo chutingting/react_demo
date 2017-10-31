@@ -1,13 +1,15 @@
 var path = require('path'), 
     webpack = require('webpack'), 
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CopyWebpackPlugin=require('copy-webpack-plugin');
 
   module.exports = { 
          devtool: 'eval-source-map', 
-         entry: __dirname + "/src/list.jsx", 
+         entry:"./src/list.jsx", 
          output: { 
               path: __dirname + "/public", 
-             filename: "bundle.js" 
+             filename: "bundle.js" ,
+             publicPath: '/'
          }, 
          devServer: { 
              inline: true, 
@@ -30,7 +32,13 @@ var path = require('path'), 
              new HtmlWebpackPlugin({ 
                  template: './index.html' 
              }), 
-             new webpack.HotModuleReplacementPlugin() 
+             new webpack.HotModuleReplacementPlugin() ,
+             /*new CopyWebpackPlugin([  拷贝的作用
+                      {
+                      from: 'node_modules/bootstrap/dist/css/bootstrap.css',
+                      to: 'public/bootstrap.css'
+                  }
+             ]),*/
          ] 
 };
 
