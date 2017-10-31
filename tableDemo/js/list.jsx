@@ -25,12 +25,24 @@ export default class List extends React.Component{
     addBtn(){
         this.refs['__model'].show();
     }
+    changeValue(value){
+        var tmp = this.getData();
+        if(value != undefined && this.state.data.length != 0){
+            this.state.data.push(value);
+            this.setState({data:this.state.data});
+        }else{
+            this.setState({data:tmp});
+        }
+    }
+    editShowModel(){
+        this.refs['__model'].show();
+    }
     render(){
         return(
             <div>
                 <button className='btn btn-sm btn-info' onClick={this.addBtn.bind(this)}>添加</button>
-                <TableList data={this.state.data}/>
-                <Model ref='__model' arr={this.state.arr}/>
+                <TableList data={this.state.data} editShowModel={e=>{this.editShowModel()}}/>
+                <Model ref='__model' changeValue={this.changeValue.bind(this)} arr={this.state.arr}/>
             </div>
         )
     }

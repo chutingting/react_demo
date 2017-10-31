@@ -31,16 +31,23 @@ export default class Model extends React.Component {
     btnSaveCk(){
         var name = this.state.name;
         var age = this.state.age;
-        this.setState({
-            arr: [{
+        /*this.setState({
+            arr: {
                 name : name,
                 age : age
-            }]
-        });
+            }
+        });*/
         var that = this;
         window.setTimeout(function(){
-            console.log(that.state.arr);
-        },0);
+            //console.log(that.state.arr);
+            if(that.state.name == "" || that.state.age == ""){
+                alert("名字 || 年龄不能为空!");
+                return;
+            }
+           // this.props.changeValue(that.state.arr);
+            this.props.changeValue(that.state);
+            this.hidden();
+        }.bind(this),0);
     }
     render(){
         return(

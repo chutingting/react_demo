@@ -18,10 +18,20 @@ export default class Table extends React.Component{
         })
     }
 
+    edit(index,e){
+        var _data = this.props.data;
+        for(var i=0;i<_data.length;i++){
+            if(index == i){
+                console.log(_data[i])
+            }
+        }
+        this.props.editShowModel();
+    }
+
     getRows(){
         var html = [];
         this.state.data.map((item,index)=>{
-            html.push(<tr key={Math.random()}><td>{item.name}</td><td>{item.age}</td><td><button className='btn btn-sm btn-danger' onClick={this.del.bind(this,index)}>删除</button></td></tr>);
+            html.push(<tr key={Math.random()}><td>{item.name}</td><td>{item.age}</td><td><button className='btn btn-sm btn-danger' onClick={this.del.bind(this,index)}>删除</button><button className='btn btn-sm btn-primary' onClick={this.edit.bind(this,index)}>修改</button></td></tr>);
         })
         return html;
     }
