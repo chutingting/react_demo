@@ -1,6 +1,8 @@
 var path = require('path'),
     webpack = require('webpack'),
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CopyWebpackPlugin=require('copy-webpack-plugin');
+
 module.exports = {
     entry: ['webpack/hot/dev-server', path.resolve(__dirname, './app.js')],
     output: {
@@ -26,6 +28,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html'
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        /*new CopyWebpackPlugin([  拷贝的作用
+                      {
+                      from: 'node_modules/bootstrap/dist/css/bootstrap.css',
+                      to: 'public/bootstrap.css'  //index.html 引入
+                  }
+             ]),*/
     ]
 };

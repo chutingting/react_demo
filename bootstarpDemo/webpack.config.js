@@ -1,11 +1,10 @@
 var path = require('path'), 
     webpack = require('webpack'), 
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    CopyWebpackPlugin=require('copy-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin');
 
   module.exports = { 
          devtool: 'eval-source-map', 
-         entry:"./src/list.jsx", 
+         entry:"./src/ToDoapp.jsx", 
          output: { 
               path: __dirname + "/public", 
              filename: "bundle.js" ,
@@ -13,7 +12,7 @@ var path = require('path'), 
          }, 
          devServer: { 
              inline: true, 
-             port: 8099 
+             port: 9999
          }, 
          module: { 
               loaders: [ 
@@ -27,18 +26,15 @@ var path = require('path'), 
                   } 
               ] 
 
-         }, 
+         },
+          /*resolve:{  //自动补全识别后缀
+              extensions:['','.css','.js','jsx']
+          },*/
          plugins: [ 
              new HtmlWebpackPlugin({ 
                  template: './index.html' 
              }), 
-             new webpack.HotModuleReplacementPlugin() ,
-             /*new CopyWebpackPlugin([  拷贝的作用
-                      {
-                      from: 'node_modules/bootstrap/dist/css/bootstrap.css',
-                      to: 'public/bootstrap.css'
-                  }
-             ]),*/
+             new webpack.HotModuleReplacementPlugin() 
          ] 
 };
 
